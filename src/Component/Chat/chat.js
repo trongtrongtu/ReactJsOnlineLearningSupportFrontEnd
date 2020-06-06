@@ -79,41 +79,31 @@ class chat extends Component {
   join_room() {
     this.socket.emit("join-room",{roomName: this.refs.room_name.value,passRoom:this.refs.passRoom,user:this.state.user});
   }
-
+  
   render() {
     return (
       <div className="app__content">
        
-        {/* kiểm tra xem user đã tồn tại hay chưa, nếu tồn tại thì render form chat, chưa thì render form login */}
-        {this.state.user.id && this.state.user.name ?
-          <div>
-                 
+       { /* kiểm tra xem user đã tồn tại hay chưa, nếu tồn tại thì render form chat, chưa thì render form login */}
+               <div><h2 style={{textAlign:'center'}} > Room:{this.state.room.roomName}</h2> </div>
                 <div className="container bootstrap snippet" >
 
                     <div className="row"> 
-                    {/* room list*/}
-                        <Rooms roomName={this.state.room.roomName} ></Rooms> 
+                    {/* Danh sach online*/}
+                        <OnlineList userOnline={this.state.userOnline} ></OnlineList>
 
                     {/* selected chat*/}
-                         <div className="col-md-6 bg-white">
+                         <div className="col-md-8 bg-white">
                              <MessageList messages ={this.state.messages} user={this.state.user} typing={this.state.typing} ></MessageList>
                              <Input sendMessage={this.sendnewMessage.bind(this)} ></Input>
                          </div>
                     
-                    {/* Danh sach online*/}
-                        <OnlineList userOnline={this.state.userOnline} ></OnlineList>
+                   
                     </div>
                 </div>
           </div>
-          :
-          <div className="login_form">{/* form login */}
-            <span className="userName" >Enter user name.</span>
-            <input type="text" name="name" ref="name"></input>
-          
-            <input type="button" name="" value="Login" onClick={this.login.bind(this)}></input>
-          </div>
-        }
-      </div>
+        
+   
     )
   }
 }
