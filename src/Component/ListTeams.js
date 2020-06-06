@@ -9,7 +9,6 @@ export default class ListTeams extends Component {
 
         return (
 
-
             <React.Fragment>
                
                 <div className="py-5">
