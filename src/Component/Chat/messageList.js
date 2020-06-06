@@ -3,13 +3,13 @@ import MessageItem from './messageItem.js'
 class MessageList extends Component {
     render() {
         return (
-            
-            <ul className="messages clo-md-5">
-                {this.props.messages.map((item,index) =>
+            <div className="chat-message">
+                 <ul className="chat">
+                 {this.props.messages.map((item,index) =>
                     <MessageItem key={index} userName={item.userName} message={item.message} timeM={item.timeM}/>
                 )}
-            </ul>
-            
+                 </ul>
+            </div>
         );
     }
 }

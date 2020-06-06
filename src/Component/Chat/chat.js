@@ -1,12 +1,14 @@
 
 import $ from 'jquery';
-import Messages from './messageList';
 import Input from './input';
 import _map from 'lodash/map';
 import io from 'socket.io-client';
 import React, { Component } from 'react';
-
+import MessageList from './messageList';
+import OnlineList from './online-list';
+import Rooms from './rooms';
 import './chat.css';
+
 
 class chat extends Component {
   constructor(props) {
@@ -15,8 +17,8 @@ class chat extends Component {
       messages: [], // danh sách tin nhắn
       user: { id: '', name: '' },// người dùng hiện tại, nếu rỗng sẽ hiển thị form login, có sẽ hiển thị phòng chat
       userOnline: [], // danh sách người dùng đang online
-      room: []
-
+      room:{userName:'tuan',roomName:'SessionA',passRoom:'@'} // room hien tai
+      
     }
     this.socket = null;
   }
@@ -27,7 +29,6 @@ class chat extends Component {
     this.socket.on('loginFail', (response) => { alert('Tên đã có người sử dụng') }); //login fail
     this.socket.on('loginSuccess', (response) => { this.setState({ user: { id: this.socket.id, name: response.data }, messages: response.messages }) }); //đăng nhập thành công 
     this.socket.on('updateUesrList', (response) => { this.setState({ userOnline: response }) }); //update lại danh sách người dùng online khi có người đăng nhập hoặc đăng xuất
-
   }
   //Khi có tin nhắn mới, sẽ push tin nhắn vào state mesgages, và nó sẽ được render ra màn hình
   newMessage(m) {
@@ -40,77 +41,75 @@ class chat extends Component {
       userId: m.user.id,
       message: m.data,
       userName: m.user.name,
-      timeM: m.timeM
+      timeM: m.timeM,
+      roomName:m.roomName
     });
-
-    let objMessage = $('.messages');
+    
+    
+    let objMessage = $('.chat-message');
     if (objMessage[0].scrollHeight - objMessage[0].scrollTop === objMessage[0].clientHeight) {
       this.setState({ messages });
-      objMessage.animate({ scrollTop: objMessage.prop('scrollHeight') }, 300); //tạo hiệu ứng cuộn khi có tin nhắn mới
+      objMessage.animate({ scrollTop: objMessage.prop('scrollHeight') }, 1000); //tạo hiệu ứng cuộn khi có tin nhắn mới
 
     } else {
       this.setState({ messages });
       if (m.id === this.state.user) {
-        objMessage.animate({ scrollTop: objMessage.prop('scrollHeight') }, 300);
+        objMessage.animate({ scrollTop: objMessage.prop('scrollHeight') }, 1000);
       }
     }
+    
   }
+  
   //Gửi event socket newMessage với dữ liệu là nội dung tin nhắn và người gửi
   sendnewMessage(m) {
     if (m.value) {
       let today = new Date();
-      let timeM = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + " || " + today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
-      this.socket.emit("newMessage", { data: m.value, user: this.state.user, timeM }); //gửi event về server
+      let timeM = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + "   " + today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
+      this.socket.emit("newMessage", { data: m.value, user: this.state.user,timeM:timeM,roomName:this.state.room.roomName }); //gửi event về server
       m.value = "";
     }
   }
   //login để định danh người dùng
   login() {
 
-    this.socket.emit("login", this.refs.name.value);
+    this.socket.emit("login",this.refs.name.value);
 
   }
 
-  create_room() {
-    this.socket.emit("createRoom",{room: this.refs.room_name.value,user:this.state.user});
+  join_room() {
+    this.socket.emit("join-room",{roomName: this.refs.room_name.value,passRoom:this.refs.passRoom,user:this.state.user});
   }
 
   render() {
     return (
       <div className="app__content">
-        <h1 style={{ marginLeft: 100 }} >chat box</h1>
+       
         {/* kiểm tra xem user đã tồn tại hay chưa, nếu tồn tại thì render form chat, chưa thì render form login */}
         {this.state.user.id && this.state.user.name ?
           <div>
-            <div className="create_room_form" >
-              <input type="text" name="room_form" ref="room_name" ></input>
-              <input type="button" name="" value="Create" onClick={this.create_room.bind(this)} ></input>
-            </div>
-            <div className="list_room" >
+                 
+                <div className="container bootstrap snippet" >
 
-            </div>
-            <div className="chat_window">
-              {/* danh sách user online */}
-              <div className="menu">
-                <ul className="user">
-                  <span className="user-name">{this.state.user.name}</span>
-                  <p>Online</p>
-                  {this.state.userOnline.map(item =>
-                    <li key={item.id}><span>{item.name}</span></li>
-                  )}
-                </ul>
-              </div>
-              {/* danh sách message */}
-              <div className="content">
-                <Messages user={this.state.user} messages={this.state.messages} typing={this.state.typing} />
-                <Input sendMessage={this.sendnewMessage.bind(this)} />
-              </div>
-            </div>
+                    <div className="row"> 
+                    {/* room list*/}
+                        <Rooms roomName={this.state.room.roomName} ></Rooms> 
+
+                    {/* selected chat*/}
+                         <div className="col-md-6 bg-white">
+                             <MessageList messages ={this.state.messages} user={this.state.user} typing={this.state.typing} ></MessageList>
+                             <Input sendMessage={this.sendnewMessage.bind(this)} ></Input>
+                         </div>
+                    
+                    {/* Danh sach online*/}
+                        <OnlineList userOnline={this.state.userOnline} ></OnlineList>
+                    </div>
+                </div>
           </div>
           :
           <div className="login_form">{/* form login */}
             <span className="userName" >Enter user name.</span>
             <input type="text" name="name" ref="name"></input>
+          
             <input type="button" name="" value="Login" onClick={this.login.bind(this)}></input>
           </div>
         }

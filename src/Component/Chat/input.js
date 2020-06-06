@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 
- class Input extends Component {
-    
+class Input extends Component {
     render() {
         return (
-            <div className="bottom_wrapper clearfix">
-            <div className="message_input_wrapper">
-                <input ref="message" className="message_input" placeholder="Type your message here..." onKeyUp={(e) => this.enterKey(e)}/>
-            </div>
-            <div className="send_message" onClick={() => this.props.sendMessage(this.refs.message)}>
-                <div className="icon"></div>
-                <div className="text">Send</div>
-            </div>
-        </div>
+            
+      <div className="chat-box bg-white">
+      <div className="input-group">
+        <input ref="message" className="form-control border no-shadow no-rounded" placeholder="Type your message here" onKeyUp={(e) => this.enterKey(e)} />
+        <span className="input-group-btn"  onClick={() => this.props.sendMessage(this.refs.message)}>
+          <button className="btn btn-success no-rounded" type="button">Send</button>
+        </span>
+      </div>{/* /input-group */}	
+    </div>
         );
     }
     enterKey(e) {
@@ -21,5 +20,5 @@ import React, { Component } from 'react';
         }
     }
 }
-export default Input ;
 
+export default Input;

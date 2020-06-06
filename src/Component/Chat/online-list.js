@@ -3,13 +3,29 @@ import React, { Component } from 'react';
 class OnlineList extends Component {
     render() {
         return (
-            <ul className="messages">
-                {this.props.messages.map(item =>
-                    <li><span>{item}</span></li>
-                )}
-            </ul>
+            <div className="col-md-3 bg-white ">
+                <div className=" row border-bottom padding-sm" style={{height: '40px'}}>
+                     Member ONline
+                </div>
+                 <ul className="friend-list">
+                    {this.props.userOnline.map((item,index) =>
+                        
+                        <li className="active bounceInDown" key={index}  >
+                            <a href="#" className="clearfix">
+                                <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" className="img-circle" />
+                                 <div className="friend-name" >	
+                                    <strong  >{item.name}</strong>
+                                 </div>
+                            </a>
+                        </li>
+
+                        )}
+    
+                </ul>
+            </div>
+
         );
     }
 }
 
-export default OnlineList
+export default OnlineList;
