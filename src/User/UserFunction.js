@@ -1,38 +1,43 @@
-import axios from 'axios'
+const IpAddress = 'localhost';
+const apiGetAllProducts = 'http://' + IpAddress + ':3002/list_all_messages';
+const apiInsertNewProduct = 'http://' + IpAddress + ':3002/insert_new_message';
+const apiGetAllUsers = 'https://' + IpAddress + ':4443/api/sessions';
 
-export const register = newUser => {
-  return axios
-    .post('http://localhost:9000/Users/register', {
-      first_name: newUser.first_name,
-      last_name: newUser.last_name,
-      email: newUser.email,
-      password: newUser.password
-    })
-    .then(response => {
-      console.log('Registered')
-    })
+async function register(user_name, pass_word, email, dia_chi, sdt, gioi_tinh, ngay_sinh) {
+  try {
+    if (!user_name || !pass_word || !email || !dia_chi || !sdt || !gioi_tinh || !ngay_sinh) {
+      return 'empty';
+    } else {
+      let response = await fetch(`http://${IpAddress}:3001/register?username=${user_name}&password=${pass_word}&email=${email}&dia_chi=${dia_chi}&sdt=${sdt}&gioi_tinh=${gioi_tinh}&ngay_sinh=${ngay_sinh}`);
+      let responseJson = await response.json();
+      return responseJson.result;
+    }
+  } catch (error) {
+    console.error(`Error is : ${error}`);
+  }
 }
-
-export const login = user => {
-  return axios
-    .post('http://localhost:9000/Users/login', {
-      email: user.email,
-      password: user.password
-    })
-    .then(response => {
-      sessionStorage.setItem('usertoken', JSON.stringify(response.data))
-      return response.data
-    })
-    .catch(err => {
-      console.log(err)
-    })
+async function login(user_name, pass_word) {
+  try {
+    if (!user_name || !pass_word) {
+      return 'empty';
+    } else {
+      let response = await fetch(`http://${IpAddress}:3001/login?username=${user_name}&password=${pass_word}`);
+      let responseJson = await response.json();
+      return responseJson.result;
+    }
+  } catch (error) {
+    console.error(`Error is : ${error}`);
+  }
 }
-export const updateProfile = user =>{
-  return axios
-    .post('http://localhost:9000/Users/updateProfile',{
-      first_name : user.first_name,
-      last_name : user.last_name,
-      dec: user.dec
-    })
+async function getUsersFromServer() {
+  try {
+    let response = await fetch(apiGetAllUsers);
+    let responseJson = await response.json();
+    return responseJson.data;
+  } catch (error) {
+    console.error(`Error is : ${error}`);
+  }
 }
-
+export { register };
+export { login };
+export { getUsersFromServer };

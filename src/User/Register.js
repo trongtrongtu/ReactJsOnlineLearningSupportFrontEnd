@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { register } from './UserFunction'
-
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import { RadioGroup, RadioButton } from 'react-radio-buttons';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -18,33 +20,41 @@ class Register extends Component {
   constructor() {
     super()
     this.state = {
-      first_name: '',
-      last_name: '',
-      email: '',
+      username: '',
       password: '',
-      errors: {}
+      dia_chi: '',
+      email: '',
+      sdt: '',
+      ngay_sinh: new Date(),
+      gioi_tinh: '',
+      errors: '',
     }
-
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
+  handleChange = date => {
+    this.setState({
+      ngay_sinh: date
+    });
+  };
+  onChange_radio = value => {
+    this.setState({ gioi_tinh: value })
+  }
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
   }
   onSubmit(e) {
     e.preventDefault()
-
-    const newUser = {
-      first_name: this.state.first_name,
-      last_name: this.state.last_name,
-      email: this.state.email,
-      password: this.state.password
-    }
-    
-    
-    register(newUser).then(res => {
-      this.props.history.push(`/login`)
+    register(this.state.username, this.state.password, this.state.email, this.state.dia_chi, this.state.sdt, this.state.gioi_tinh, this.state.ngay_sinh).then(res => {
+      if (res == 'empty') {
+        this.setState({ errors: 'Cần nhập đầy đủ các trường' })
+      } else if (res == 'failed_exists') {
+        this.setState({ errors: 'Tên tài khoản đã tồn tài' })
+      } else {
+        sessionStorage.setItem("user_register",this.state.username);
+        this.props.history.push(`/Profile`)
+      }
     })
   }
 
@@ -57,7 +67,7 @@ class Register extends Component {
       }} >
         <div>
           <br />
-        
+
           <Container component="main" maxWidth="xs" >
             <CssBaseline />
             <div style={{ marginTop: "5px", display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -69,19 +79,19 @@ class Register extends Component {
               <Typography component="h1" variant="h5">
                 Đăng ký
        </Typography>
-              <form style={{ width: '100%', marginTop: "2px" }} noValidate onSubmit = {this.onSubmit}>
+              <form style={{ marginLeft: "-100px", width: '150%', marginTop: "10px", borderRadius: 5 }} noValidate onSubmit={this.onSubmit}>
                 <TextField
                   variant="outlined"
                   margin="normal"
                   required
                   fullWidth
-                  type = "text"
-                  label="Ho"
-                  name = "first_name"
-                  autoComplete ="first_name"
-                  
+                  type="text"
+                  placeholder="Tài khoản"
+                  name="username"
+                  autoComplete="username"
+
                   autoFocus
-                  value={this.state.first_name}
+                  value={this.state.username}
                   onChange={this.onChange}
                 />
                 <TextField
@@ -89,13 +99,13 @@ class Register extends Component {
                   margin="normal"
                   required
                   fullWidth
-                  type = "text"
-                  label="Tên"
-                  name = "last_name"
-                  autoComplete = "last_name"
-                  
+                  type="password"
+                  placeholder="Mật khẩu"
+                  name="password"
+                  autoComplete="password"
+
                   autoFocus
-                  value={this.state.last_name}
+                  value={this.state.password}
                   onChange={this.onChange}
                 />
                 <TextField
@@ -103,10 +113,10 @@ class Register extends Component {
                   margin="normal"
                   required
                   fullWidth
-                  id ="email"
-                  label="Địa chỉ email"
-                  name = "email"
-                 autoComplete = "email"
+                  id="email"
+                  placeholder="Địa chỉ email"
+                  name="email"
+                  autoComplete="email"
                   autoFocus
                   value={this.state.email}
                   onChange={this.onChange}
@@ -116,24 +126,45 @@ class Register extends Component {
                   margin="normal"
                   required
                   fullWidth
-                  name="password"
-                  label="Mật khẩu"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  value={this.state.password}
-                  onChange = {this.onChange}
+                  name="dia_chi"
+                  placeholder="Địa chỉ"
+                  type="text"
+                  id="dia_chi"
+                  value={this.state.dia_chi}
+                  onChange={this.onChange}
                 />
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Nhớ mật khẩu"
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="sdt"
+                  placeholder="Số điện thoại"
+                  type="text"
+                  id="sdt"
+                  value={this.state.sdt}
+                  onChange={this.onChange}
                 />
+                <div style={{ marginTop: '15px' }}>
+                  <RadioGroup onChange={this.onChange_radio} horizontal>
+                    <RadioButton value="Nam">Nam</RadioButton>
+                    <RadioButton value="Nữ">Nữ</RadioButton>
+                  </RadioGroup>
+                </div>
+                <div style={{ marginTop: '15px' }}>
+                  <div style={{ display: 'inline', marginRight: '20px' }}>Ngày sinh: </div>
+                  <DatePicker
+                    selected={this.state.ngay_sinh}
+                    onChange={this.handleChange}
+                    dateFormat="dd/MM/yyyy" />
+                </div>
+                <div style={{ color: "red", marginTop: '10px' }}>{this.state.errors}</div>
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
                   color="primary"
-                  style={{ margin: "3px 0 2px" }}
+                  style={{ margin: "20px 0 20px" }}
                 >
                   Đăng ký
          </Button>
@@ -149,7 +180,7 @@ class Register extends Component {
             </div>
 
           </Container>
-          <div style={{height:"225px"}}>
+          <div style={{ height: "225px" }}>
 
           </div>
         </div>
