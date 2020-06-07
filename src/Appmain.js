@@ -10,8 +10,9 @@ import Register from './User/Register';
 import Profile from './User/Profile';
 import changeProfile from './User/changeProfile';
 import changing from './User/changing';
-import InfoTeam from './Component/InfoTeam'
-import createGroup from './Component/createGroup'
+import InfoTeam from './Component/InfoTeam';
+import createGroup from './Component/createGroup';
+import JoinGroup from './Component/JoinGroup';
 export default class Appmain extends Component {
      render() {
           return (
@@ -23,6 +24,7 @@ export default class Appmain extends Component {
                     <br/>
                     <Switch>
                          <Route path="/createGroup" component={createGroup}/>
+                         <Route path="/joinGroup" component={JoinGroup}/>
                          <Route path="/InfoTeam" component={InfoTeam} />  
                          <Route path="/Call" component={App} />
                          <Route path = "/changing" component={changing}/>

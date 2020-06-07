@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class OnlineList extends Component {
     render() {
         return (
-            <div className="col-md-3 bg-white ">
+            <div className="col-md-4 bg-white ">
                 <div className=" row border-bottom padding-sm" style={{height: '40px'}}>
                      Member ONline
                 </div>
