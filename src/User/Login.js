@@ -20,9 +20,9 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      username: '',
       password: '',
-      errors: {}
+      errors: ''
 
     }
 
@@ -35,15 +35,14 @@ class Login extends Component {
   }
   onSubmit(e) {
     e.preventDefault();
-
-    const user = {
-      email: this.state.email,
-      password: this.state.password
-    }
-
-    login(user).then(res => {
-      if (res) {
-        this.props.history.push(`/profile`)
+    login(this.state.username, this.state.password).then(res => {
+      if (res == 'empty') {
+        this.setState({ errors: 'Tài khoản hoặc mật khẩu trống' })
+      } else if (res == 'ok') {
+        sessionStorage.setItem("user_login",this.state.username);
+        this.props.history.push(`/Profile`)
+      } else if (res == 'failed_login') {
+        this.setState({ errors: 'Tài khoản hoặc mật khẩu sai' })
       }
     })
   }
@@ -60,7 +59,7 @@ class Login extends Component {
         <div>
           <br />
           <br />
-         
+
           <Container component="main" maxWidth="xs" >
             <CssBaseline />
             <div style={{ marginTop: "5px", display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -72,18 +71,18 @@ class Login extends Component {
               <Typography component="h1" variant="h5">
                 Đăng nhập
        </Typography>
-              <form style={{ width: '100%', marginTop: "2px" }} noValidate onSubmit={this.onSubmit}>
+              <form style={{marginLeft:"-100px", width: '150%', marginTop: "10px", borderRadius: 5 }} noValidate onSubmit={this.onSubmit}>
                 <TextField
                   variant="outlined"
                   margin="normal"
                   required
                   fullWidth
-                  id="email"
-                  label="Địa chỉ email"
-                  name="email"
-                  autoComplete="email"
+                  id="username"
+                  placeholder="Tài khoản"
+                  name="username"
+                  autoComplete="username"
                   autoFocus
-                  value={this.state.email}
+                  value={this.state.username}
                   onChange={this.onChange}
                 />
                 <TextField
@@ -92,23 +91,20 @@ class Login extends Component {
                   required
                   fullWidth
                   name="password"
-                  label="Mật khẩu"
+                  placeholder="Mật khẩu"
                   type="password"
                   id="password"
                   autoComplete="current-password"
                   value={this.state.password}
-                  onChange = {this.onChange}
+                  onChange={this.onChange}
                 />
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Nhớ đăng nhập"
-                />
+                <div style={{ color: "red" }}>{this.state.errors}</div>
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
                   color="primary"
-                  style={{ margin: "3px 0 2px" }}
+                  style={{ margin: "20px 0 20px" }}
                 >
                   Đăng nhập
          </Button>
@@ -124,7 +120,7 @@ class Login extends Component {
             </div>
 
           </Container>
-          <div style={{height:"225px"}}>
+          <div style={{ height: "225px" }}>
 
           </div>
         </div>

@@ -4,7 +4,10 @@ import {Link } from 'react-router-dom';
 import { TeamConsumer } from './Context';
 
 export default class ListTeams extends Component {
+    constructor(props){
+        super(props);
 
+    }
     render() {
 
         return (
@@ -16,9 +19,12 @@ export default class ListTeams extends Component {
                         <div className = "row">
                         <div className="col-lg-12" style={{textAlign:"center",fontFamily:"pacifico",fontSize:"29px"}}>Your Team</div>
                         <Link to = "/createGroup">
-                        <button className="btn-sm btn-primary" style={{position:"absolute" ,right:"50px"}}>Tao group</button>
+                        <button className="btn-sm btn-primary" style={{position:"absolute" ,right:"50px"}}>Create Group</button>
                         </Link>
                         
+                        <Link to = "/joinGroup">
+                        <button className="btn-sm btn-primary" style={{position:"absolute" ,right:"50px",marginTop:"50px"}}>Join Group</button>
+                        </Link>
                         </div>
                         
                         <div className="row">
@@ -30,6 +36,7 @@ export default class ListTeams extends Component {
                                 }}
                             </TeamConsumer>
                         </div>
+
                     </div>
                 </div>
             </React.Fragment>

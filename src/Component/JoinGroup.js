@@ -3,15 +3,15 @@ import './createGroup.css';
 import './createGroupJS.js';
 import axios from 'axios' ;
 
-const addRoomAction =(username,roomNameCreate,passwordRoom)=>(axios.post('/create_room',{username,roomNameCreate,passwordRoom}).then((resp)=>resp.data));
-export default class createGroup extends Component {
+const addRoomAction =(username,roomNameJoin,passwordRoom)=>(axios.post('/join_room',{username,roomNameJoin,passwordRoom}).then((resp)=>resp.data));
+export default class JoinGroup extends Component {
   constructor(props){
     super(props);
     this.state={
       username:'tuanla99',
-      roomNameCreate: '',
-      passwordRoom:'',
-      passwordRoom_1:''
+      roomNameJoin: '',
+      passwordRoom:''
+     
     }
   }
   isChange =(event) =>{
@@ -26,16 +26,21 @@ export default class createGroup extends Component {
   }
   handleOnClick =() =>{
     console.log(JSON.stringify(this.state));
-    if(this.state.passwordRoom === this.state.passwordRoom_1){
+   
       
-        addRoomAction(this.state.username,this.state.roomNameCreate,this.state.passwordRoom).then((respive) =>{console.log(respive);
+        addRoomAction(this.state.username,this.state.roomNameJoin,this.state.passwordRoom).then((respive) =>{console.log(respive);
         if(respive.result === 'ok'){
           this.props.history.push('/Teams') ;
+        }else if(respive.result === 'failed_joined'){
+           alert("User joined the room.");
+        }else if(respive.result === 'failed_roomName'){
+            alert("RoomName wrong.");
+        }else if(respive.result === 'failed_password'){
+            alert("Password wrong") ;
         }
+        
         })
-    }else{
-      alert("Nhap Password khong khop.");
-    }
+    
   }
      render() {
 
@@ -43,7 +48,7 @@ export default class createGroup extends Component {
                <form>
         <label>
           <p className="label-txt">ENTER YOUR ROOM</p>
-          <input onChange={(event)=> this.isChange(event)} type="text" className="input" name="roomNameCreate" />
+          <input onChange={(event)=> this.isChange(event)} type="text" className="input" name="roomNameJoin" />
           <div className="line-box">
             <div className="line" />
           </div>
@@ -55,13 +60,7 @@ export default class createGroup extends Component {
             <div className="line" />
           </div>
         </label>
-        <label>
-          <p className="label-txt">ENTER YOUR PASSWORD</p>
-          <input onChange={(event)=> this.isChange(event)} type="text" className="input" name="passwordRoom_1" />
-          <div className="line-box">
-            <div className="line" />
-          </div>
-        </label>
+       
         <button type="reset" onClick={()=>this.handleOnClick()}>submit</button>
       </form>
           )

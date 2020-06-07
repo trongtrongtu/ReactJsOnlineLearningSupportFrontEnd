@@ -36,7 +36,6 @@ class TeamProvider extends Component {
     }
     
     
-
     render() {
         return (
             <TeamContext.Provider
@@ -44,7 +43,6 @@ class TeamProvider extends Component {
                     ...this.state,
                     handleDetail: this.handleDetail
                     
-                   
                 }}
             >
                 {this.props.children}
