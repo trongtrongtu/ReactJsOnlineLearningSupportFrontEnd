@@ -17,8 +17,8 @@ import Typography from '@material-ui/core/Typography';
 
 import Container from '@material-ui/core/Container';
 class Profile extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       username: sessionStorage.getItem('user_login'),
       dia_chi: '',

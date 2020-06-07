@@ -38,6 +38,16 @@ async function myAccount(user_name) {
     console.error(`Error is : ${error}`);
   }
 }
+async function listAllRoomWithUser(user_name) {
+  try {
+    let response = await fetch(`http://${IpAddress}:3001/list_all_rooms_with_user?username=${user_name}`);
+    let responseJson = await response.json();
+    return responseJson.data;
+  } catch (error) {
+    console.error(`Error is : ${error}`);
+  }
+}
 export { register };
 export { login };
 export { myAccount };
+export { listAllRoomWithUser };
