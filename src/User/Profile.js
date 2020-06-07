@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { register } from './UserFunction'
+import { register } from './UserFunction';
+import { myAccount } from './UserFunction';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import Avatar from '@material-ui/core/Avatar';
@@ -19,7 +20,7 @@ class Profile extends Component {
   constructor() {
     super()
     this.state = {
-      username: '',
+      username: sessionStorage.getItem('user_login'),
       dia_chi: '',
       email: '',
       sdt: '',
@@ -31,6 +32,22 @@ class Profile extends Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
+  componentDidMount() {
+    this.refreshDataFromServer();
+  }
+  refreshDataFromServer = () => {
+    myAccount(sessionStorage.getItem('user_login')).then((userFromServer) => {
+      this.setState({
+        gioi_tinh: userFromServer[0].gioi_tinh,
+        
+        email: userFromServer[0].email,
+        sdt: userFromServer[0].sdt,
+        dia_chi: userFromServer[0].dia_chi
+      });
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
   handleChange = date => {
     this.setState({
       ngay_sinh: date
@@ -50,7 +67,7 @@ class Profile extends Component {
       } else if (res == 'failed_exists') {
         this.setState({ errors: 'Tên tài khoản đã tồn tài' })
       } else {
-        sessionStorage.setItem("user_register",this.state.username);
+        sessionStorage.setItem("user_register", this.state.username);
         this.props.history.push(`/Profile`)
       }
     })
@@ -87,23 +104,21 @@ class Profile extends Component {
                   placeholder="Tài khoản"
                   name="username"
                   autoComplete="username"
-
                   autoFocus
                   value={this.state.username}
-                  onChange={this.onChange}
+                  
                 />
                 <TextField
                   variant="outlined"
                   margin="normal"
                   required
                   fullWidth
-                  type="password"
                   placeholder="Mật khẩu"
                   name="password"
                   autoComplete="password"
 
                   autoFocus
-                  value={this.state.password}
+                  value={this.state.ngay_sinh}
                   onChange={this.onChange}
                 />
                 <TextField
@@ -144,7 +159,7 @@ class Profile extends Component {
                   onChange={this.onChange}
                 />
                 <div style={{ marginTop: '15px' }}>
-                  <RadioGroup onChange={this.onChange_radio} horizontal>
+                  <RadioGroup value={this.state.gioi_tinh} onChange={this.onChange_radio} horizontal>
                     <RadioButton value="Nam">Nam</RadioButton>
                     <RadioButton value="Nữ">Nữ</RadioButton>
                   </RadioGroup>

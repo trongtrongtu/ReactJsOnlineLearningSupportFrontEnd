@@ -29,9 +29,9 @@ async function login(user_name, pass_word) {
     console.error(`Error is : ${error}`);
   }
 }
-async function getUsersFromServer() {
+async function myAccount(user_name) {
   try {
-    let response = await fetch(apiGetAllUsers);
+    let response = await fetch(`http://${IpAddress}:3001/my_account?username=${user_name}`);
     let responseJson = await response.json();
     return responseJson.data;
   } catch (error) {
@@ -40,4 +40,4 @@ async function getUsersFromServer() {
 }
 export { register };
 export { login };
-export { getUsersFromServer };
+export { myAccount };
