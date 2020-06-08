@@ -3,6 +3,7 @@ import Team from "./team";
 import { Link } from 'react-router-dom';
 import { TeamConsumer } from './Context';
 import { listAllRoomWithUser } from '../User/UserFunction'
+import { Button } from '@material-ui/core';
 
 export default class ListTeams extends Component {
     constructor(props) {
@@ -35,15 +36,13 @@ export default class ListTeams extends Component {
         const styles = {
             li: {
                 width: '17%',
-                height: '180px',
+                height: '200px',
                 backgroundColor: '#8cacea',
                 margin: '20px',
 
             },
             text: {
-                paddingTop: '110px',
                 textAlign: 'center',
-                borderRadius: '2px',
                 paddingLeft: '20px',
                 paddingRight: '20px',
             }
@@ -53,50 +52,36 @@ export default class ListTeams extends Component {
                 <div className="py-5">
                     <div className="container">
                         <div className="row">
-                            <div className="col-lg-12" style={{ textAlign: "center", fontFamily: "pacifico", fontSize: "29px" }}>Your Team</div>
+                            <div className="col-lg-12" style={{ textAlign: "center", fontSize: "35px", fontWeight: 500 }}><p>Nhóm</p></div>
                             <Link to="/createGroup">
-                                <button className="btn-sm btn-primary" style={{ position: "absolute", right: "50px" }}>Create Group</button>
+                                <button className="btn-sm btn-primary" style={{ position: "absolute", right: "10px", marginRight: '140px' }}>Tạo Nhóm</button>
                             </Link>
 
                             <Link to="/joinGroup">
-                                <button className="btn-sm btn-primary" style={{ position: "absolute", right: "50px", marginTop: "50px" }}>Join Group</button>
+                                <button className="btn-sm btn-primary" style={{ position: "absolute", right: "20px" }}>Tham Gia Nhóm</button>
                             </Link>
                         </div>
-                        {this.state.room.map((item, i) => (
-                            <span style={{ border: 'sol' }}>
-                                {item.roomNameJoin}
-                            </span>
-                        ))}
                     </div>
-                    <span style={{ display: 'flex', marginLeft: '100px', flexWrap: 'wrap' }}>
-                        <span style={styles.li}>
-                            <span style={{paddingLeft:'30%', paddingRight:'30%'}}>
-                                <img src={"image/room.jpeg"} alt="" />
-                            </span>
-                            <span style={styles.text}>
-                                parent element
-                            </span>
+                    <div style={{ marginTop: '80px' }}>
+                        <span style={{ display: 'flex', marginLeft: '100px', flexWrap: 'wrap' }}>
+                            {this.state.room.map((item, i) => (
+                                <span style={styles.li}>
+                                    <span style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
+                                        <img src={"image/room.jpeg"} alt="" />
+                                    </span>
+                                    <span style={styles.text}>
+                                        <Link to="/createGroup" onClick={() => {sessionStorage.setItem('room',item.roomNameJoin)}}>
+                                            <p style={{ fontWeight: 500, fontSize: '18px' }}>
+                                                {item.roomNameJoin}
+                                            </p>
+                                        </Link>
+                                    </span>
+                                </span>
+                            ))}
                         </span>
-                        <span style={styles.li}>first child element</span>
-                        <span style={styles.li}>second child element</span>
-                        <span style={styles.li}>parent element </span>
-                        <span style={styles.li}>first child element</span>
-                        <span style={styles.li}>second child element</span>
-                        <span style={styles.li}>parent element </span>
-                        <span style={styles.li}>first child element</span>
-                        <span style={styles.li}>second child element</span>
-                        <span style={styles.li}>parent element </span>
-                        <span style={styles.li}>first child element</span>
-                        <span style={styles.li}>second child element</span>
-                        <span style={styles.li}>parent element </span>
-                        <span style={styles.li}>first child element</span>
-                        <span style={styles.li}>second child element</span>
-                        <span style={styles.li}>parent element </span>
-                        <span style={styles.li}>first child element</span>
-                        <span style={styles.li}>second child element</span>
-                    </span>
+                    </div>
                 </div>
-            </React.Fragment>
+            </React.Fragment >
 
         );
     }
