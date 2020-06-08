@@ -54,7 +54,7 @@ class Register extends Component {
       } else if (res == 'failed_exists') {
         this.setState({ errors: 'Tên tài khoản đã tồn tài' })
       } else {
-        sessionStorage.setItem("user_register",this.state.username);
+        sessionStorage.setItem("user_login", this.state.username);
         this.props.history.push(`/Profile`)
       }
     })

@@ -5,10 +5,12 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import {Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+
 const StyledMenu = withStyles({
   paper: {
     border: '1px solid #d3d4d5',
@@ -50,53 +52,84 @@ export default function CustomizedMenus() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  return (
-    <div>
-      <Button
-        aria-controls="customized-menu"
-        aria-haspopup="true"
-        variant="contained"
-        color="primary"
-        onClick={handleClick}
-      >
-        Nhom 22
+  if (sessionStorage.getItem('user_login') == undefined) {
+    return (
+      <div>
+        <Button
+          aria-controls="customized-menu"
+          aria-haspopup="true"
+          variant="contained"
+          color="primary"
+          onClick={handleClick}
+        >
+          Nhom 22
       </Button>
-      <StyledMenu
-        id="customized-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <StyledMenuItem>
-          <ListItemIcon>
-            <VpnKeyIcon fontSize="small" />
-          </ListItemIcon>
-          <Link to = "/Register">
-          <ListItemText primary="Register" />
-          </Link>
-          
-        </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemIcon>
-            <LockOpenIcon fontSize="small" />
-          </ListItemIcon>
-          <Link to = "/Login">
-          <ListItemText primary="Login" />
-          </Link>
-          
-        </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemIcon>
-            <AccountBoxIcon fontSize="small" />
-          </ListItemIcon>
-          <Link to = "/Profile">
-          <ListItemText primary="Profile" />
-          </Link>
-          
-        </StyledMenuItem>
-      </StyledMenu>
-    </div>
-  );
+        <StyledMenu
+          id="customized-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <StyledMenuItem>
+            <ListItemIcon>
+              <VpnKeyIcon fontSize="small" />
+            </ListItemIcon>
+            <Link to="/Register">
+              <ListItemText primary="Đăng ký" />
+            </Link>
+
+          </StyledMenuItem>
+          <StyledMenuItem>
+            <ListItemIcon>
+              <LockOutlinedIcon fontSize="small" />
+            </ListItemIcon>
+            <Link to="/Login">
+              <ListItemText primary="Đăng nhập" />
+            </Link>
+
+          </StyledMenuItem>
+        </StyledMenu>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <Button
+          aria-controls="customized-menu"
+          aria-haspopup="true"
+          variant="contained"
+          color="primary"
+          onClick={handleClick}
+        >
+          Nhom 22
+      </Button>
+        <StyledMenu
+          id="customized-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <StyledMenuItem>
+            <ListItemIcon>
+              <AccountBoxIcon fontSize="small" />
+            </ListItemIcon>
+            <Link to="/Profile">
+              <ListItemText primary="Tài khoản" />
+            </Link>
+          </StyledMenuItem>
+          <StyledMenuItem>
+            <ListItemIcon>
+              <LockOpenIcon fontSize="small" />
+            </ListItemIcon>
+            <Link to="/Login" onClick={() => sessionStorage.removeItem('user_login')}>
+              <ListItemText primary="Đăng Xuất" />
+            </Link>
+
+          </StyledMenuItem>
+        </StyledMenu>
+      </div>
+    );
+  }
 }

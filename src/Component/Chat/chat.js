@@ -15,10 +15,10 @@ class chat extends Component {
     super(props);
     this.state = {
       messages: [], // danh sách tin nhắn
-      user: { id: '', name: '' },// người dùng hiện tại, nếu rỗng sẽ hiển thị form login, có sẽ hiển thị phòng chat
+      user: { id: '', name: sessionStorage.getItem('user_login') },// người dùng hiện tại, nếu rỗng sẽ hiển thị form login, có sẽ hiển thị phòng chat
       userOnline: [], // danh sách người dùng đang online
-      room:{userName:'tuan',roomName:'SessionA',passRoom:'@'} // room hien tai
-      
+      room: { userName: sessionStorage.getItem('user_login'), roomName: sessionStorage.getItem('room'), passRoom: '@' } // room hien tai
+
     }
     this.socket = null;
   }
@@ -42,10 +42,10 @@ class chat extends Component {
       message: m.data,
       userName: m.user.name,
       timeM: m.timeM,
-      roomName:m.roomName
+      roomName: m.roomName
     });
-    
-    
+
+
     let objMessage = $('.chat-message');
     if (objMessage[0].scrollHeight - objMessage[0].scrollTop === objMessage[0].clientHeight) {
       this.setState({ messages });
@@ -57,53 +57,53 @@ class chat extends Component {
         objMessage.animate({ scrollTop: objMessage.prop('scrollHeight') }, 1000);
       }
     }
-    
+
   }
-  
+
   //Gửi event socket newMessage với dữ liệu là nội dung tin nhắn và người gửi
   sendnewMessage(m) {
     if (m.value) {
       let today = new Date();
       let timeM = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + "   " + today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
-      this.socket.emit("newMessage", { data: m.value, user: this.state.user,timeM:timeM,roomName:this.state.room.roomName }); //gửi event về server
+      this.socket.emit("newMessage", { data: m.value, user: this.state.user, timeM: timeM, roomName: this.state.room.roomName }); //gửi event về server
       m.value = "";
     }
   }
   //login để định danh người dùng
   login() {
 
-    this.socket.emit("login",this.refs.name.value);
+    this.socket.emit("login", this.refs.name.value);
 
   }
 
   join_room() {
-    this.socket.emit("join-room",{roomName: this.refs.room_name.value,passRoom:this.refs.passRoom,user:this.state.user});
+    this.socket.emit("join-room", { roomName: this.refs.room_name.value, passRoom: this.refs.passRoom, user: this.state.user });
   }
-  
+
   render() {
     return (
       <div className="app__content">
-       
-       { /* kiểm tra xem user đã tồn tại hay chưa, nếu tồn tại thì render form chat, chưa thì render form login */}
-               <div><h2 style={{textAlign:'center'}} > Room:{this.state.room.roomName}</h2> </div>
-                <div className="container bootstrap snippet" >
 
-                    <div className="row"> 
-                    {/* Danh sach online*/}
-                        <OnlineList userOnline={this.state.userOnline} ></OnlineList>
+        { /* kiểm tra xem user đã tồn tại hay chưa, nếu tồn tại thì render form chat, chưa thì render form login */}
+        <div><h2 style={{ textAlign: 'center' }} > Room:{this.state.room.roomName}</h2> </div>
+        <div className="container bootstrap snippet" >
 
-                    {/* selected chat*/}
-                         <div className="col-md-8 bg-white">
-                             <MessageList messages ={this.state.messages} user={this.state.user} typing={this.state.typing} ></MessageList>
-                             <Input sendMessage={this.sendnewMessage.bind(this)} ></Input>
-                         </div>
-                    
-                   
-                    </div>
-                </div>
+          <div className="row">
+            {/* Danh sach online*/}
+            <OnlineList userOnline={this.state.userOnline} ></OnlineList>
+
+            {/* selected chat*/}
+            <div className="col-md-8 bg-white">
+              <MessageList messages={this.state.messages} user={this.state.user} typing={this.state.typing} ></MessageList>
+              <Input sendMessage={this.sendnewMessage.bind(this)} ></Input>
+            </div>
+
+
           </div>
-        
-   
+        </div>
+      </div>
+
+
     )
   }
 }
