@@ -70,7 +70,7 @@ export default class ListTeams extends Component {
                                         <img src={"image/room.jpeg"} alt="" />
                                     </span>
                                     <span style={styles.text}>
-                                        <Link to="/createGroup" onClick={() => {sessionStorage.setItem('room',item.roomNameJoin)}}>
+                                        <Link to="/Chat" onClick={() => {sessionStorage.setItem('room',item.roomNameJoin)}}>
                                             <p style={{ fontWeight: 500, fontSize: '18px' }}>
                                                 {item.roomNameJoin}
                                             </p>
