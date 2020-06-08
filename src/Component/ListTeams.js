@@ -10,7 +10,7 @@ export default class ListTeams extends Component {
         this.state = {
             username: sessionStorage.getItem('user_login'),
             room: [
-                
+
             ]
         }
     }
@@ -32,6 +32,22 @@ export default class ListTeams extends Component {
         });
     }
     render() {
+        const styles = {
+            li: {
+                width: '17%',
+                height: '180px',
+                backgroundColor: '#8cacea',
+                margin: '20px',
+
+            },
+            text: {
+                paddingTop: '110px',
+                textAlign: 'center',
+                borderRadius: '2px',
+                paddingLeft: '20px',
+                paddingRight: '20px',
+            }
+        }
         return (
             <React.Fragment>
                 <div className="py-5">
@@ -46,10 +62,39 @@ export default class ListTeams extends Component {
                                 <button className="btn-sm btn-primary" style={{ position: "absolute", right: "50px", marginTop: "50px" }}>Join Group</button>
                             </Link>
                         </div>
-                        {this.state.room.map((item, i) => (             
-                                <span>{item.roomNameJoin}</span>
+                        {this.state.room.map((item, i) => (
+                            <span style={{ border: 'sol' }}>
+                                {item.roomNameJoin}
+                            </span>
                         ))}
                     </div>
+                    <span style={{ display: 'flex', marginLeft: '100px', flexWrap: 'wrap' }}>
+                        <span style={styles.li}>
+                            <span style={{paddingLeft:'30%', paddingRight:'30%'}}>
+                                <img src={"image/room.jpeg"} alt="" />
+                            </span>
+                            <span style={styles.text}>
+                                parent element
+                            </span>
+                        </span>
+                        <span style={styles.li}>first child element</span>
+                        <span style={styles.li}>second child element</span>
+                        <span style={styles.li}>parent element </span>
+                        <span style={styles.li}>first child element</span>
+                        <span style={styles.li}>second child element</span>
+                        <span style={styles.li}>parent element </span>
+                        <span style={styles.li}>first child element</span>
+                        <span style={styles.li}>second child element</span>
+                        <span style={styles.li}>parent element </span>
+                        <span style={styles.li}>first child element</span>
+                        <span style={styles.li}>second child element</span>
+                        <span style={styles.li}>parent element </span>
+                        <span style={styles.li}>first child element</span>
+                        <span style={styles.li}>second child element</span>
+                        <span style={styles.li}>parent element </span>
+                        <span style={styles.li}>first child element</span>
+                        <span style={styles.li}>second child element</span>
+                    </span>
                 </div>
             </React.Fragment>
 
