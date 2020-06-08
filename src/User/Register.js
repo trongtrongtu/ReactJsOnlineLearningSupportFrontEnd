@@ -12,10 +12,11 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { Link } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
-
+import moment from 'react-moment';
 import Typography from '@material-ui/core/Typography';
 
 import Container from '@material-ui/core/Container';
+//const selected = moment(isoDateStr).toDate();
 class Register extends Component {
   constructor() {
     super()
@@ -25,17 +26,18 @@ class Register extends Component {
       dia_chi: '',
       email: '',
       sdt: '',
-      ngay_sinh: new Date(),
       gioi_tinh: '',
+      ngay_sinh: new Date(),
       errors: '',
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
+  
   handleChange = date => {
     this.setState({
-      ngay_sinh: date
+      ngay_sinh: date 
     });
   };
   onChange_radio = value => {
@@ -156,7 +158,10 @@ class Register extends Component {
                   <DatePicker
                     selected={this.state.ngay_sinh}
                     onChange={this.handleChange}
-                    dateFormat="dd/MM/yyyy" />
+                    dateFormat="MM-DD-YYYY"
+                    showTimeSelect
+                    />
+                   
                 </div>
                 <div style={{ color: "red", marginTop: '10px' }}>{this.state.errors}</div>
                 <Button

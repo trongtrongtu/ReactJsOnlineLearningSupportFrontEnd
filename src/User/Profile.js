@@ -24,7 +24,7 @@ class Profile extends Component {
       dia_chi: '',
       email: '',
       sdt: '',
-      ngay_sinh: new Date(),
+      ngay_sinh: '',
       gioi_tinh: '',
       errors: '',
     }
@@ -42,16 +42,21 @@ class Profile extends Component {
         
         email: userFromServer[0].email,
         sdt: userFromServer[0].sdt,
-        dia_chi: userFromServer[0].dia_chi
+        dia_chi: userFromServer[0].dia_chi,
+        ngay_sinh: userFromServer[0].ngay_sinh,
+        
       });
+      console.log(this.state.ngay_sinh)
     }).catch((error) => {
       console.error(error);
     });
   }
   handleChange = date => {
     this.setState({
-      ngay_sinh: date
+      ngay_sinh: date,
+      startDate: date 
     });
+    
   };
   onChange_radio = value => {
     this.setState({ gioi_tinh: value })
@@ -167,7 +172,7 @@ class Profile extends Component {
                 <div style={{ marginTop: '15px' }}>
                   <div style={{ display: 'inline', marginRight: '20px' }}>Ngày sinh: </div>
                   <DatePicker
-                    selected={this.state.ngay_sinh}
+                    selected={this.state.startDate.to}
                     onChange={this.handleChange}
                     dateFormat="dd/MM/yyyy" />
                 </div>
