@@ -47,8 +47,36 @@ async function listAllRoomWithUser(user_name) {
     console.error(`Error is : ${error}`);
   }
 }
+async function update_user(username, gioi_tinh, ngay_sinh, email, sdt, dia_chi) {
+  try {
+    if (!gioi_tinh || !ngay_sinh || !email || !sdt || !dia_chi) {
+      return 'empty';
+    } else {
+      let response = await fetch('http://' + IpAddress + ':3001/update_user', {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username,
+          gioi_tinh: gioi_tinh,
+          ngay_sinh: ngay_sinh,
+          email: email,
+          sdt: sdt,
+          dia_chi: dia_chi
+        })
+      });
+      let responseJson = await response.json();
+      return responseJson.result;
+    }
+  } catch (error) {
+    console.error(`Error is : ${error}`);
+  }
+}
 
 export { register };
 export { login };
 export { myAccount };
 export { listAllRoomWithUser };
+export { update_user };

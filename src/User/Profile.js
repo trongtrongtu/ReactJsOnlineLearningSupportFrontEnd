@@ -9,10 +9,10 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Typography from '@material-ui/core/Typography';
-import axios from 'axios' ;
+import axios from 'axios';
 import Container from '@material-ui/core/Container';
+import { update_user } from './UserFunction'
 
-const updateUser =(username,dia_chi,email,sdt,ngay_sinh,gioi_tinh,password)=>(axios.put('/update_user',{username,dia_chi,email,sdt,ngay_sinh,gioi_tinh,password}).then((resp)=>resp.data));
 class Profile extends Component {
   constructor(props) {
     super(props)
@@ -24,8 +24,7 @@ class Profile extends Component {
       ngay_sinh: '',
       gioi_tinh: '',
       errors: '',
-      password:'',
-      startDate: new Date() 
+      startDate: new Date()
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -38,7 +37,7 @@ class Profile extends Component {
     myAccount(sessionStorage.getItem('user_login')).then((userFromServer) => {
       this.setState({
         gioi_tinh: userFromServer[0].gioi_tinh,
-        password:userFromServer[0].password,
+        password: userFromServer[0].password,
         email: userFromServer[0].email,
         sdt: userFromServer[0].sdt,
         dia_chi: userFromServer[0].dia_chi,
@@ -52,10 +51,10 @@ class Profile extends Component {
   }
   handleChange = date => {
     this.setState({
-      ngay_sinh: date.getFullYear()+'/'+(date.getMonth()+1)+'/'+date.getDate(),
+      ngay_sinh: date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate(),
       startDate: date
     });
-    
+
   };
   onChange_radio = value => {
     this.setState({ gioi_tinh: value })
@@ -65,12 +64,12 @@ class Profile extends Component {
   }
   onSubmit(e) {
     e.preventDefault()
-    updateUser(this.state.username, this.state.password, this.state.email, this.state.dia_chi, this.state.sdt, this.state.gioi_tinh, this.state.ngay_sinh).then(res => {
+    update_user(this.state.username, this.state.gioi_tinh, this.state.ngay_sinh, this.state.email, this.state.sdt, this.state.dia_chi).then(res => {
       if (res.result == 'failed') {
         this.setState({ errors: res.messege })
-      }else {
-        sessionStorage.setItem("user_register", this.state.username);
+      } else {
         this.props.history.push(`/Profile`)
+        this.setState({ errors: 'Cập nhật tài khoản thành công' })
       }
     })
   }
@@ -95,76 +94,70 @@ class Profile extends Component {
               </Avatar>
               <Typography component="h1" variant="h5">
                 Tài khoản
-       </Typography>
+              </Typography>
               <form style={{ marginLeft: "-100px", width: '150%', marginTop: "10px", borderRadius: 5 }} noValidate onSubmit={this.onSubmit}>
-                User Name
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  type="text"
-                  placeholder="Tài khoản"
-                  name="username"
-                  autoComplete="username"
-                  autoFocus
-                  value={this.state.username}
-                  
-                />
-                Password 
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  placeholder="Mật khẩu"
-                  name="password"
-                  autoComplete="password"
-                  type="password"
-                  autoFocus
-                  value={this.state.password}
-                  onChange={this.onChange}
-                />
-                Email 
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  placeholder="Địa chỉ email"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                  value={this.state.email}
-                  onChange={this.onChange}
-                />
-                Address 
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="dia_chi"
-                  placeholder="Địa chỉ"
-                  type="text"
-                  id="dia_chi"
-                  value={this.state.dia_chi}
-                  onChange={this.onChange}
-                />
-                Phone 
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="sdt"
-                  placeholder="Số điện thoại"
-                  type="text"
-                  id="sdt"
-                  value={this.state.sdt}
-                  onChange={this.onChange}
-                />
+                <div style={{ flexDirection: 'row', display: 'flex' }}>
+                  <span style={{ width: '150px', marginTop: '30px' }}>Tên Tài Khoản:</span>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    type="text"
+                    placeholder="Tài khoản"
+                    name="username"
+                    autoComplete="username"
+                    autoFocus
+                    value={this.state.username}
+
+                  />
+                </div>
+                <div style={{ flexDirection: 'row', display: 'flex' }}>
+                  <span style={{ width: '150px', marginTop: '30px' }}>Địa Chỉ Email:</span>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    placeholder="Địa chỉ email"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+                    value={this.state.email}
+                    onChange={this.onChange}
+                  />
+                </div>
+                <div style={{ flexDirection: 'row', display: 'flex' }}>
+                  <span style={{ width: '135px', marginTop: '30px', paddingRight:'40px' }}>Địa Chỉ:</span>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="dia_chi"
+                    placeholder="Địa chỉ"
+                    type="text"
+                    id="dia_chi"
+                    value={this.state.dia_chi}
+                    onChange={this.onChange}
+                  />
+                </div>
+                <div style={{ flexDirection: 'row', display: 'flex' }}>
+                  <span style={{ width: '150px', marginTop: '30px' }}>Số Điện Thoại:</span>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="sdt"
+                    placeholder="Số điện thoại"
+                    type="text"
+                    id="sdt"
+                    value={this.state.sdt}
+                    onChange={this.onChange}
+                  />
+                </div>
                 <div style={{ marginTop: '15px' }}>
                   <RadioGroup value={this.state.gioi_tinh} onChange={this.onChange_radio} horizontal>
                     <RadioButton value="Nam">Nam</RadioButton>
@@ -172,14 +165,14 @@ class Profile extends Component {
                   </RadioGroup>
                 </div>
                 <div style={{ marginTop: '15px' }}>
-                  <div style={{ display: 'inline', marginRight: '20px' }}>Chon ngay sinh: </div>
+                  <div style={{ display: 'inline', marginRight: '20px' }}>Ngày Sinh: </div>
                   <DatePicker
                     selected={this.state.startDate}
                     onChange={this.handleChange}
                     dateFormat="dd/MM/yyyy"
-                     />
+                  />
                 </div>
-                <div style={{ color: "red", marginTop: '10px' }}>{this.state.errors}</div>
+                <div style={{ color: "green", marginTop: '10px' }}>{this.state.errors}</div>
                 <Button
                   type="submit"
                   fullWidth
