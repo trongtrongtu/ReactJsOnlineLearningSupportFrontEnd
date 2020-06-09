@@ -7,8 +7,6 @@ import Button from '@material-ui/core/Button';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import { Link } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
@@ -16,6 +14,8 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import Typography from '@material-ui/core/Typography';
 
 import Container from '@material-ui/core/Container';
+//const selected = moment(isoDateStr).toDate();
+// const [startDate, setStartDate] = useState(0);
 class Register extends Component {
   constructor() {
     super()
@@ -25,17 +25,20 @@ class Register extends Component {
       dia_chi: '',
       email: '',
       sdt: '',
-      ngay_sinh: new Date(),
       gioi_tinh: '',
+      ngay_sinh: '',
       errors: '',
+      startDate : new Date()
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
+  
   handleChange = date => {
     this.setState({
-      ngay_sinh: date
+      ngay_sinh: date.getFullYear()+'/'+(date.getMonth()+1)+'/'+date.getDate(),
+      startDate: new Date(date)
     });
   };
   onChange_radio = value => {
@@ -53,7 +56,7 @@ class Register extends Component {
         this.setState({ errors: 'Tên tài khoản đã tồn tài' })
       } else {
         sessionStorage.setItem("user_login", this.state.username);
-        this.props.history.push(`/Profile`)
+        this.props.history.push(`/Profile`);
       }
     })
   }
@@ -153,10 +156,14 @@ class Register extends Component {
                 </div>
                 <div style={{ marginTop: '15px' }}>
                   <div style={{ display: 'inline', marginRight: '20px' }}>Ngày sinh: </div>
+                  
                   <DatePicker
-                    selected={this.state.ngay_sinh}
+                    selected={this.state.startDate}
                     onChange={this.handleChange}
-                    dateFormat="dd/MM/yyyy" />
+                    dateFormat="dd/MM/yyyy"
+                    />
+                   
+
                 </div>
                 <div style={{ color: "red", marginTop: '10px' }}>{this.state.errors}</div>
                 <Button
