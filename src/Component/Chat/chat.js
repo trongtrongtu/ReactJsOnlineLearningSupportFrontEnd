@@ -23,12 +23,11 @@ class chat extends Component {
     this.socket = null;
   }
   componentWillMount() {
-    console.log(this.state.user)
     this.socket = io('localhost:3001');
-    this.socket.emit("login", this.state.user.name);
+    this.socket.emit("login", {username: sessionStorage.getItem('user_login'), roomName: sessionStorage.getItem('room')});
     this.socket.on('newMessage', (response) => { this.newMessage(response) }); //lắng nghe khi có tin nhắn mới
     this.socket.on('loginFail', (response) => { alert('Tên đã có người sử dụng') }); //login fail
-    this.socket.on('loginSuccess', (response) => { this.setState({ user: { id: this.socket.id, name: response.data }, messages: response.messages }) }); //đăng nhập thành công 
+    this.socket.on('loginSuccess', (response) => { this.setState({ user: { id: this.socket.id, name: response.data.username }, messages: response.messages }) }); //đăng nhập thành công 
     this.socket.on('updateUesrList', (response) => { this.setState({ userOnline: response }) }); //update lại danh sách người dùng online khi có người đăng nhập hoặc đăng xuất
   }
   //Khi có tin nhắn mới, sẽ push tin nhắn vào state mesgages, và nó sẽ được render ra màn hình
@@ -80,7 +79,7 @@ class chat extends Component {
   }
 
   render() {
-
+    console.log(this.state.userOnline)
     return (
       <div className="app__content">
 
