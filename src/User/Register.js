@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component,useState } from 'react'
 import { register } from './UserFunction'
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
@@ -17,6 +17,8 @@ import Typography from '@material-ui/core/Typography';
 
 import Container from '@material-ui/core/Container';
 //const selected = moment(isoDateStr).toDate();
+// const [startDate, setStartDate] = useState(0);
+const startDate = new Date() ;
 class Register extends Component {
   constructor() {
     super()
@@ -27,7 +29,7 @@ class Register extends Component {
       email: '',
       sdt: '',
       gioi_tinh: '',
-      ngay_sinh: new Date(),
+      ngay_sinh: '',
       errors: '',
     }
     this.onChange = this.onChange.bind(this)
@@ -37,7 +39,7 @@ class Register extends Component {
   
   handleChange = date => {
     this.setState({
-      ngay_sinh: date 
+      ngay_sinh: date.getFullYear()+'/'+(date.getMonth()+1)+'/'+date.getDate()
     });
   };
   onChange_radio = value => {
@@ -55,7 +57,7 @@ class Register extends Component {
         this.setState({ errors: 'Tên tài khoản đã tồn tài' })
       } else {
         sessionStorage.setItem("user_login", this.state.username);
-        this.props.history.push(`/Profile`)
+        this.props.history.push(`/Profile`);
       }
     })
   }
@@ -155,13 +157,15 @@ class Register extends Component {
                 </div>
                 <div style={{ marginTop: '15px' }}>
                   <div style={{ display: 'inline', marginRight: '20px' }}>Ngày sinh: </div>
+                  
                   <DatePicker
-                    selected={this.state.ngay_sinh}
+                    selected={startDate}
                     onChange={this.handleChange}
-                    dateFormat="MM-DD-YYYY"
-                    showTimeSelect
+                    
+                    selectsStart
                     />
                    
+
                 </div>
                 <div style={{ color: "red", marginTop: '10px' }}>{this.state.errors}</div>
                 <Button

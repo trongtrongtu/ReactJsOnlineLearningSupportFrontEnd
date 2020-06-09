@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { register } from './UserFunction';
 import { myAccount } from './UserFunction';
 import DatePicker from 'react-datepicker';
@@ -14,8 +14,10 @@ import { Link } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Typography from '@material-ui/core/Typography';
-
+import axios from 'axios' ;
 import Container from '@material-ui/core/Container';
+
+const updateUser =(username,dia_chi,email,sdt,ngay_sinh,gioi_tinh,password)=>(axios.put('/update_user',{username,dia_chi,email,sdt,ngay_sinh,gioi_tinh,password}).then((resp)=>resp.data));
 class Profile extends Component {
   constructor(props) {
     super(props)
@@ -27,6 +29,8 @@ class Profile extends Component {
       ngay_sinh: '',
       gioi_tinh: '',
       errors: '',
+      password:'',
+      startDate: new Date() 
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -39,12 +43,12 @@ class Profile extends Component {
     myAccount(sessionStorage.getItem('user_login')).then((userFromServer) => {
       this.setState({
         gioi_tinh: userFromServer[0].gioi_tinh,
-        
+        password:userFromServer[0].password,
         email: userFromServer[0].email,
         sdt: userFromServer[0].sdt,
         dia_chi: userFromServer[0].dia_chi,
         ngay_sinh: userFromServer[0].ngay_sinh,
-        
+        startDate: new Date(userFromServer[0].ngay_sinh)
       });
       console.log(this.state.ngay_sinh)
     }).catch((error) => {
@@ -53,8 +57,8 @@ class Profile extends Component {
   }
   handleChange = date => {
     this.setState({
-      ngay_sinh: date,
-      startDate: date 
+      ngay_sinh: date.getFullYear()+'/'+(date.getMonth()+1)+'/'+date.getDate(),
+      startDate: date
     });
     
   };
@@ -66,12 +70,10 @@ class Profile extends Component {
   }
   onSubmit(e) {
     e.preventDefault()
-    register(this.state.username, this.state.password, this.state.email, this.state.dia_chi, this.state.sdt, this.state.gioi_tinh, this.state.ngay_sinh).then(res => {
-      if (res == 'empty') {
-        this.setState({ errors: 'Cần nhập đầy đủ các trường' })
-      } else if (res == 'failed_exists') {
-        this.setState({ errors: 'Tên tài khoản đã tồn tài' })
-      } else {
+    updateUser(this.state.username, this.state.password, this.state.email, this.state.dia_chi, this.state.sdt, this.state.gioi_tinh, this.state.ngay_sinh).then(res => {
+      if (res.result == 'failed') {
+        this.setState({ errors: res.messege })
+      }else {
         sessionStorage.setItem("user_register", this.state.username);
         this.props.history.push(`/Profile`)
       }
@@ -100,6 +102,7 @@ class Profile extends Component {
                 Tài khoản
        </Typography>
               <form style={{ marginLeft: "-100px", width: '150%', marginTop: "10px", borderRadius: 5 }} noValidate onSubmit={this.onSubmit}>
+                User Name
                 <TextField
                   variant="outlined"
                   margin="normal"
@@ -113,6 +116,7 @@ class Profile extends Component {
                   value={this.state.username}
                   
                 />
+                Password 
                 <TextField
                   variant="outlined"
                   margin="normal"
@@ -121,11 +125,12 @@ class Profile extends Component {
                   placeholder="Mật khẩu"
                   name="password"
                   autoComplete="password"
-
+                  type="password"
                   autoFocus
-                  value={this.state.ngay_sinh}
+                  value={this.state.password}
                   onChange={this.onChange}
                 />
+                Email 
                 <TextField
                   variant="outlined"
                   margin="normal"
@@ -139,6 +144,7 @@ class Profile extends Component {
                   value={this.state.email}
                   onChange={this.onChange}
                 />
+                Address 
                 <TextField
                   variant="outlined"
                   margin="normal"
@@ -151,6 +157,7 @@ class Profile extends Component {
                   value={this.state.dia_chi}
                   onChange={this.onChange}
                 />
+                Phone 
                 <TextField
                   variant="outlined"
                   margin="normal"
@@ -170,11 +177,12 @@ class Profile extends Component {
                   </RadioGroup>
                 </div>
                 <div style={{ marginTop: '15px' }}>
-                  <div style={{ display: 'inline', marginRight: '20px' }}>Ngày sinh: </div>
+                  <div style={{ display: 'inline', marginRight: '20px' }}>Chon ngay sinh: </div>
                   <DatePicker
-                    selected={this.state.startDate.to}
+                    selected={this.state.startDate}
                     onChange={this.handleChange}
-                    dateFormat="dd/MM/yyyy" />
+                    selectsStart
+                     />
                 </div>
                 <div style={{ color: "red", marginTop: '10px' }}>{this.state.errors}</div>
                 <Button

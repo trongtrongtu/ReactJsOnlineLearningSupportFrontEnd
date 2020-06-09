@@ -47,6 +47,7 @@ async function listAllRoomWithUser(user_name) {
     console.error(`Error is : ${error}`);
   }
 }
+
 export { register };
 export { login };
 export { myAccount };
