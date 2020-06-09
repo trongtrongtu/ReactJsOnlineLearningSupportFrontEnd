@@ -6,7 +6,7 @@ class MessageList extends Component {
             <div className="chat-message">
                  <ul className="chat">
                  {this.props.messages.map((item,index) =>
-                    <MessageItem key={index} userName={item.userName} message={item.message} timeM={item.timeM}/>
+                    <MessageItem key={index} userName={item.userName} message={item.message} timeM={item.timeM} roomName={item.roomName}/>
                 )}
                  </ul>
             </div>

@@ -39,6 +39,7 @@ export default class ListTeams extends Component {
                 height: '200px',
                 backgroundColor: '#8cacea',
                 margin: '20px',
+                borderRadius:'5px'
 
             },
             text: {

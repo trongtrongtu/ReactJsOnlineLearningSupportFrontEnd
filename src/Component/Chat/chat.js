@@ -25,6 +25,7 @@ class chat extends Component {
   componentWillMount() {
     console.log(this.state.user)
     this.socket = io('localhost:3001');
+    this.socket.emit("login", this.state.user.name);
     this.socket.on('newMessage', (response) => { this.newMessage(response) }); //lắng nghe khi có tin nhắn mới
     this.socket.on('loginFail', (response) => { alert('Tên đã có người sử dụng') }); //login fail
     this.socket.on('loginSuccess', (response) => { this.setState({ user: { id: this.socket.id, name: response.data }, messages: response.messages }) }); //đăng nhập thành công 
@@ -37,14 +38,12 @@ class chat extends Component {
     let max = Math.max(...ids);
 
     messages.push({
-      id: max + 1,
       userId: m.user.id,
       message: m.data,
       userName: m.user.name,
       timeM: m.timeM,
       roomName: m.roomName
     });
-
 
     let objMessage = $('.chat-message');
     if (objMessage[0].scrollHeight - objMessage[0].scrollTop === objMessage[0].clientHeight) {
@@ -81,6 +80,7 @@ class chat extends Component {
   }
 
   render() {
+
     return (
       <div className="app__content">
 
