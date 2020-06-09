@@ -52,7 +52,7 @@ export default function CustomizedMenus() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  if (sessionStorage.getItem('user_login') == undefined) {
+  if (sessionStorage.getItem('user_login') === undefined) {
     return (
       <div>
         <Button

@@ -4,8 +4,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+
 import { Link } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid';
 
@@ -36,12 +35,12 @@ class Login extends Component {
   onSubmit(e) {
     e.preventDefault();
     login(this.state.username, this.state.password).then(res => {
-      if (res == 'empty') {
+      if (res === 'empty') {
         this.setState({ errors: 'Tài khoản hoặc mật khẩu trống' })
-      } else if (res == 'ok') {
+      } else if (res === 'ok') {
         sessionStorage.setItem("user_login",this.state.username);
         this.props.history.push(`/Profile`)
-      } else if (res == 'failed_login') {
+      } else if (res === 'failed_login') {
         this.setState({ errors: 'Tài khoản hoặc mật khẩu sai' })
       }
     })

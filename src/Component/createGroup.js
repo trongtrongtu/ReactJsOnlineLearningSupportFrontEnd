@@ -8,7 +8,7 @@ export default class createGroup extends Component {
   constructor(props){
     super(props);
     this.state={
-      username:'tuanla99',
+      username:sessionStorage.getItem('user_login'),
       roomNameCreate: '',
       passwordRoom:'',
       passwordRoom_1:''

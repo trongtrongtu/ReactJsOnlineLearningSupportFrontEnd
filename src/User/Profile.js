@@ -1,5 +1,4 @@
-import React, { Component, useState } from 'react'
-import { register } from './UserFunction';
+import React, { Component } from 'react'
 import { myAccount } from './UserFunction';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,10 +7,6 @@ import Button from '@material-ui/core/Button';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import { Link } from 'react-router-dom'
-import Grid from '@material-ui/core/Grid';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios' ;
@@ -71,7 +66,7 @@ class Profile extends Component {
   onSubmit(e) {
     e.preventDefault()
     updateUser(this.state.username, this.state.password, this.state.email, this.state.dia_chi, this.state.sdt, this.state.gioi_tinh, this.state.ngay_sinh).then(res => {
-      if (res.result == 'failed') {
+      if (res.result === 'failed') {
         this.setState({ errors: res.messege })
       }else {
         sessionStorage.setItem("user_register", this.state.username);

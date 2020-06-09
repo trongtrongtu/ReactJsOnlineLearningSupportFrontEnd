@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class MessageItem extends Component {
   render() {
     
-    if (this.props.roomName == sessionStorage.getItem('room')) {
+    if (this.props.roomName === sessionStorage.getItem('room')) {
       return (
         <li className={this.props.user ? "left clearfix" : "right clearfix"}>
           <span className="chat-img pull-left">
