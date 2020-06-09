@@ -9,8 +9,8 @@ class App extends Component {
         this.OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
         this.OPENVIDU_SERVER_SECRET = 'MY_SECRET';
         this.state = {
-            mySessionId: 'SessionA',
-            myUserName: 'OpenVidu_User_' + Math.floor(Math.random() * 100),
+            mySessionId: sessionStorage.getItem('room'),
+            myUserName: sessionStorage.getItem('user_login'),
             token: undefined,
         };
 
@@ -67,50 +67,17 @@ class App extends Component {
         const token = this.state.token;
         return (
             <div>
-                {this.state.session === undefined ? (
-                    <div id="join">
-                        <div id="join-dialog">
-                            <h1> Join a video session </h1>
-                            <form onSubmit={this.joinSession}>
-                                <p>
-                                    <label>Participant: </label>
-                                    <input
-                                        type="text"
-                                        id="userName"
-                                        value={myUserName}
-                                        onChange={this.handleChangeUserName}
-                                        required
-                                    />
-                                </p>
-                                <p>
-                                    <label> Session: </label>
-                                    <input
-                                        type="text"
-                                        id="sessionId"
-                                        value={mySessionId}
-                                        onChange={this.handleChangeSessionId}
-                                        required
-                                    />
-                                </p>
-                                <p>
-                                    <input name="commit" type="submit" value="JOIN" />
-                                </p>
-                            </form>
-                        </div>
-                    </div>
-                ) : (
-                    <div id="session">
-                        <OpenViduSession
-                            id="opv-session"
-                            sessionName={mySessionId}
-                            user={myUserName}
-                            token={token}
-                            joinSession={this.handlerJoinSessionEvent}
-                            leaveSession={this.handlerLeaveSessionEvent}
-                            error={this.handlerErrorEvent}
-                        />
-                    </div>
-                )}
+                <div id="session">
+                    <OpenViduSession
+                        id="opv-session"
+                        sessionName={mySessionId}
+                        user={myUserName}
+                        token={token}
+                        joinSession={this.handlerJoinSessionEvent}
+                        leaveSession={this.handlerLeaveSessionEvent}
+                        error={this.handlerErrorEvent}
+                    />
+                </div>
             </div>
         );
     }
@@ -159,11 +126,11 @@ class App extends Component {
                         if (
                             window.confirm(
                                 'No connection to OpenVidu Server. This may be a certificate error at "' +
-                                    this.OPENVIDU_SERVER_URL +
-                                    '"\n\nClick OK to navigate and accept it. ' +
-                                    'If no certificate warning is shown, then check that your OpenVidu Server is up and running at "' +
-                                    this.OPENVIDU_SERVER_URL +
-                                    '"',
+                                this.OPENVIDU_SERVER_URL +
+                                '"\n\nClick OK to navigate and accept it. ' +
+                                'If no certificate warning is shown, then check that your OpenVidu Server is up and running at "' +
+                                this.OPENVIDU_SERVER_URL +
+                                '"',
                             )
                         ) {
                             window.location.assign(this.OPENVIDU_SERVER_URL + '/accept-certificate');

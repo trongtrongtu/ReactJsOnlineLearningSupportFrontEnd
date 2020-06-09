@@ -226,15 +226,6 @@ export default function MiniDrawer() {
             </ListItem>
           ))}
         </List>
-        
-        <List>
-          {['Chat', 'Call'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <Link to = "/Chat"><ChatIcon /> </Link>: <Link to = "/Call"><CallIcon /></Link>}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
       </Drawer>
 
 

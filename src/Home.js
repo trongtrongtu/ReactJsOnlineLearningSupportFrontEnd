@@ -6,9 +6,6 @@ export default class Home extends Component {
           super(props);
           this.socket =null;
      }
-     componentDidMount(){
-          this.socket = io('localhost:3001');
-     }
      render() {
           return (
                <div>
