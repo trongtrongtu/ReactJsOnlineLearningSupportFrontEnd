@@ -39,7 +39,7 @@ class Login extends Component {
         this.setState({ errors: 'Tài khoản hoặc mật khẩu trống' })
       } else if (res == 'ok') {
         sessionStorage.setItem("user_login",this.state.username);
-        this.props.history.push(`/Profile`)
+        this.props.history.push(`/`)
       } else if (res == 'failed_login') {
         this.setState({ errors: 'Tài khoản hoặc mật khẩu sai' })
       }
