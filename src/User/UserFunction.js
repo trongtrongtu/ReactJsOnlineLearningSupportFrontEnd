@@ -74,9 +74,18 @@ async function update_user(username, gioi_tinh, ngay_sinh, email, sdt, dia_chi) 
     console.error(`Error is : ${error}`);
   }
 }
-
+async function listMessageWithRoom(room_Name) {
+  try {
+    let response = await fetch(`http://${IpAddress}:3001/message_with_user_to_room?roomName=${room_Name}`);
+    let responseJson = await response.json();
+    return responseJson.data;
+  } catch (error) {
+    console.error(`Error is : ${error}`);
+  }
+}
 export { register };
 export { login };
 export { myAccount };
 export { listAllRoomWithUser };
 export { update_user };
+export { listMessageWithRoom };
