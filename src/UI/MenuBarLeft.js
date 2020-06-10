@@ -25,8 +25,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import CustomizedMenu from './MenuBar';
 import HomeIcon from '@material-ui/icons/Home';
 import GroupIcon from '@material-ui/icons/Group';
-import ChatIcon from '@material-ui/icons/Chat';
-import CallIcon from '@material-ui/icons/Call';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -225,6 +225,13 @@ export default function MiniDrawer() {
               <ListItemText primary={text} />
             </ListItem>
           ))}
+        </List>
+        <List>
+            <ListItem>
+              <ListItemIcon><Link to = "/listUser"><AccountCircleIcon /></Link></ListItemIcon>
+              <ListItemText primary={'User'} />
+              <ListItemText/>
+            </ListItem>
         </List>
       </Drawer>
 

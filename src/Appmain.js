@@ -13,6 +13,9 @@ import changing from './User/changing';
 import InfoTeam from './Component/InfoTeam';
 import createGroup from './Component/createGroup';
 import JoinGroup from './Component/JoinGroup';
+import User from './Component/User';
+import ChatUser from './Component/Chat/chatUser'
+
 export default class Appmain extends Component {
      render() {
           return (
@@ -35,6 +38,8 @@ export default class Appmain extends Component {
                          <Route path = "/Register" component={Register}/>
                          <Route path = "/Profile" component = {Profile}/>
                          <Route path = "/changeProfile" component= {changeProfile}/>
+                         <Route path = "/listUser" component= {User}/>
+                         <Route path="/ChatUser" component={ChatUser} />
                     </Switch>
 
                </React.Fragment>

@@ -6,7 +6,7 @@ class OnlineList extends Component {
         return (
             <div className="col-md-4 bg-white ">
                 <div className=" row border-bottom padding-sm" style={{ height: '40px' }}>
-                    Member Online
+                    Thành Viên Online 
                 </div>
                 <ul className="friend-list">
                     {this.props.userOnline.map((item, index) =>

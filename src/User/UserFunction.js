@@ -83,9 +83,19 @@ async function listMessageWithRoom(room_Name) {
     console.error(`Error is : ${error}`);
   }
 }
+async function list_all_users() {
+  try {
+    let response = await fetch(`http://${IpAddress}:3001/list_all_users`);
+    let responseJson = await response.json();
+    return responseJson.data;
+  } catch (error) {
+    console.error(`Error is : ${error}`);
+  }
+}
 export { register };
 export { login };
 export { myAccount };
 export { listAllRoomWithUser };
 export { update_user };
 export { listMessageWithRoom };
+export { list_all_users };

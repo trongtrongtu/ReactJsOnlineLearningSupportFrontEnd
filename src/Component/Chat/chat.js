@@ -97,7 +97,7 @@ class chat extends Component {
       <div className="app__content">
 
         { /* kiểm tra xem user đã tồn tại hay chưa, nếu tồn tại thì render form chat, chưa thì render form login */}
-        <div><h2 style={{ textAlign: 'center' }} > Room:{this.state.room.roomName}</h2> </div>
+        <div><h2 style={{ textAlign: 'center' }} > Nhóm: {this.state.room.roomName}</h2> </div>
         <div className="container bootstrap snippet" >
 
           <div className="row">
