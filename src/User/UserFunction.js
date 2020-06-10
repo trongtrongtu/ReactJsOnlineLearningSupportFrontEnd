@@ -83,9 +83,18 @@ async function listMessageWithRoom(room_Name) {
     console.error(`Error is : ${error}`);
   }
 }
-async function list_all_users() {
+async function list_all_users(user_name) {
   try {
-    let response = await fetch(`http://${IpAddress}:3001/list_all_users`);
+    let response = await fetch(`http://${IpAddress}:3001/list_all_users?username=${user_name}`);
+    let responseJson = await response.json();
+    return responseJson.data;
+  } catch (error) {
+    console.error(`Error is : ${error}`);
+  }
+}
+async function listMessageWithUser(user_name,username_friend) {
+  try {
+    let response = await fetch(`http://${IpAddress}:3001/message_with_user_to_user?username=${user_name}&usernamefriend=${username_friend}`);
     let responseJson = await response.json();
     return responseJson.data;
   } catch (error) {
@@ -99,3 +108,4 @@ export { listAllRoomWithUser };
 export { update_user };
 export { listMessageWithRoom };
 export { list_all_users };
+export {listMessageWithUser};

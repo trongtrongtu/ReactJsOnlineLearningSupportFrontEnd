@@ -17,7 +17,7 @@ export default class User extends Component {
         this.refreshDataFromServer();
     }
     refreshDataFromServer = () => {
-        list_all_users().then((userFromServer) => {
+        list_all_users(sessionStorage.getItem('user_login')).then((userFromServer) => {
             for (let i = 0; i < userFromServer.length; i++) {
                 this.state.listUser.push({
                     username: userFromServer[i].username
@@ -37,7 +37,7 @@ export default class User extends Component {
                 height: '200px',
                 backgroundColor: '#8cacea',
                 margin: '20px',
-                borderRadius:'5px'
+                borderRadius: '5px'
 
             },
             text: {
@@ -49,16 +49,16 @@ export default class User extends Component {
         return (
             <React.Fragment>
                 <div className="py-5">
-                <div className="col-lg-12" style={{ textAlign: "center", fontSize: "35px", fontWeight: 500 }}><p>Bạn Bè</p></div>
+                    <div className="col-lg-12" style={{ textAlign: "center", fontSize: "35px", fontWeight: 500 }}><p>Bạn Bè</p></div>
                     <div style={{ marginTop: '80px' }}>
                         <span style={{ display: 'flex', marginLeft: '100px', flexWrap: 'wrap' }}>
                             {this.state.listUser.map((item, i) => (
                                 <span style={styles.li}>
                                     <span style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
-                                        <img src={"image/room.jpeg"} alt="" />
+                                        <img src={"image/user.jpeg"} alt="" />
                                     </span>
                                     <span style={styles.text}>
-                                        <Link to="/ChatUser" onClick={() => {sessionStorage.setItem('user_friend',item.username)}}>
+                                        <Link to="/ChatUser" onClick={() => { sessionStorage.setItem('user_friend', item.username) }}>
                                             <p style={{ fontWeight: 500, fontSize: '18px' }}>
                                                 {item.username}
                                             </p>

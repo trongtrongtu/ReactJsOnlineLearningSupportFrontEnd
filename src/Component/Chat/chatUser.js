@@ -1,6 +1,6 @@
 
 import $ from 'jquery';
-import Input from './input';
+import InputUser from './inputUser';
 import _map from 'lodash/map';
 import io from 'socket.io-client';
 import React, { Component } from 'react';
@@ -8,7 +8,7 @@ import MessageListUser from './messageListUser';
 import OnlineList from './online-list';
 import Rooms from './rooms';
 import './chat.css';
-import { listMessageWithRoom } from '../../User/UserFunction';
+import { listMessageWithUser } from '../../User/UserFunction';
 
 
 class chatUser extends Component {
@@ -25,7 +25,17 @@ class chatUser extends Component {
         this.socket = io('localhost:3001');
         this.socket.on('newMessageFriend', (response) => { this.newMessage(response) }); //lắng nghe khi có tin nhắn mới
 
-        
+        listMessageWithUser(sessionStorage.getItem('user_login'), sessionStorage.getItem('user_friend')).then((listMessage) => {
+            for (let i = 0; i < listMessage.length; i++) {
+                this.state.messages.push({
+                    message: listMessage[i].message,
+                    userName: listMessage[i].username,
+                    timeM: listMessage[i].created_date,
+                    usernamefriend: listMessage[i].usernamefriend
+                })
+            }
+            this.setState({ messages: this.state.messages })
+        })
     }
     //Khi có tin nhắn mới, sẽ push tin nhắn vào state mesgages, và nó sẽ được render ra màn hình
     newMessage(m) {
@@ -89,7 +99,7 @@ class chatUser extends Component {
                         {/* selected chat*/}
                         <div className="col-md-8 bg-white">
                             <MessageListUser messages={this.state.messages} user={this.state.user} typing={this.state.typing} ></MessageListUser>
-                            <Input sendMessage={this.sendnewMessage.bind(this)} ></Input>
+                            <InputUser sendMessage={this.sendnewMessage.bind(this)} ></InputUser>
                         </div>
 
 

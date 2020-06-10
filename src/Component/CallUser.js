@@ -9,7 +9,7 @@ class App extends Component {
         this.OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
         this.OPENVIDU_SERVER_SECRET = 'MY_SECRET';
         this.state = {
-            mySessionId: sessionStorage.getItem('room'),
+            mySessionId: sessionStorage.getItem('user_friend'),
             myUserName: sessionStorage.getItem('user_login'),
             token: undefined,
         };
@@ -28,7 +28,7 @@ class App extends Component {
 
     handlerLeaveSessionEvent() {
         console.log('Leave session');
-        this.props.history.push(`/Chat`);
+        this.props.history.push(`/ChatUser`);
     }
 
     handlerErrorEvent() {

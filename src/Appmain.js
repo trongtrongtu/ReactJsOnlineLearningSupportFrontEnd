@@ -5,6 +5,7 @@ import Chat from './Component/Chat/chat'
 import Teams from './Component/ListTeams'
 import Home from './Home'
 import App from './Component/App';
+import CallUser from './Component/CallUser';
 import Login from './User/Login';
 import Register from './User/Register';
 import Profile from './User/Profile';
@@ -30,6 +31,7 @@ export default class Appmain extends Component {
                          <Route path="/joinGroup" component={JoinGroup}/>
                          <Route path="/InfoTeam" component={InfoTeam} />  
                          <Route path="/Call" component={App} />
+                         <Route path="/CallUser" component={CallUser} />
                          <Route path = "/changing" component={changing}/>
                          <Route path="/Chat" component={Chat} />
                          <Route path="/Teams" component={Teams} />
