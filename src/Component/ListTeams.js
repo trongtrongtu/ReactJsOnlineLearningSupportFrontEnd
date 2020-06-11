@@ -4,15 +4,25 @@ import { Link } from 'react-router-dom';
 import { TeamConsumer } from './Context';
 import { listAllRoomWithUser } from '../User/UserFunction'
 import { Button } from '@material-ui/core';
-
+import Search from '../UI/Search' ;
 export default class ListTeams extends Component {
+    // Lay ra noi dung search
+    getTextSearch =(data) =>{
+    
+        this.setState({
+            searchText : data.toLowerCase() ,
+        });
+        console.log(this.state.searchText)
+    }
+    //=======================================
     constructor(props) {
         super(props);
         this.state = {
             username: sessionStorage.getItem('user_login'),
             room: [
 
-            ]
+            ],
+            searchText:''
         }
     }
     componentDidMount() {
@@ -32,6 +42,7 @@ export default class ListTeams extends Component {
             console.error(error);
         });
     }
+    
     render() {
         const styles = {
             li: {
@@ -48,7 +59,19 @@ export default class ListTeams extends Component {
                 paddingRight: '20px',
             }
         }
+        // Lay ra danh sach room
+        var ketQua=[] ;
+        this.state.room.forEach((item) =>{
+            var roomName = item.roomNameJoin.toLowerCase() ;
+            
+            if(roomName.indexOf(this.state.searchText) !== -1){
+                ketQua.push(item) ;
+            }
+            console.log(ketQua) ;
+        })
         return (
+            <div>
+            <Search checkConnectSearch ={ (data) => this.getTextSearch(data)} ></Search>
             <React.Fragment>
                 <div className="py-5">
                     <div className="container">
@@ -65,7 +88,7 @@ export default class ListTeams extends Component {
                     </div>
                     <div style={{ marginTop: '80px' }}>
                         <span style={{ display: 'flex', marginLeft: '100px', flexWrap: 'wrap' }}>
-                            {this.state.room.map((item, i) => (
+                            {ketQua.map((item, i) => (
                                 <span style={styles.li}>
                                     <span style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
                                         <img src={"image/room.jpeg"} alt="" />
@@ -83,7 +106,7 @@ export default class ListTeams extends Component {
                     </div>
                 </div>
             </React.Fragment >
-
+                                </div>
         );
     }
 }

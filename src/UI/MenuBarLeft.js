@@ -176,6 +176,7 @@ export default function MiniDrawer() {
           <Typography className={classes.title} variant="h6" noWrap>
             My Teams
           </Typography>
+          {/* 
           <div style={{ position: "absolute", left: "30%", right: "50%", width: "35em" }}>
             <div className={classes.search} >
               <div className={classes.searchIcon}>
@@ -192,7 +193,7 @@ export default function MiniDrawer() {
             </div>
 
           </div>
-
+        */}
           <div>
             <CustomizedMenu />
           </div>

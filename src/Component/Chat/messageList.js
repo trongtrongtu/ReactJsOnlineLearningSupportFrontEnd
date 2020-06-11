@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import MessageItem from './messageItem.js'
+import MessageItem from './messageItem.js';
+import $ from 'jquery';
 class MessageList extends Component {
     render() {
+        let objMessage = $("ul");
+       
+        objMessage.scrollTop(100000);
         return (
             <div className="chat-message">
                  <ul className="chat">
