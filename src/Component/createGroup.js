@@ -57,14 +57,14 @@ export default class createGroup extends Component {
         </label>
         <label>
           <p className="label-txt" style={{ fontSize: '20px', fontWeight: '700', marginTop: '15px' }}>Mật Khẩu: </p>
-          <input onChange={(event) => this.isChange(event)} type="text" className="input" name="passwordRoom" />
+          <input onChange={(event) => this.isChange(event)} type="password" className="input" name="passwordRoom" />
           <div className="line-box">
             <div className="line" />
           </div>
         </label>
         <label>
           <p className="label-txt" style={{ fontSize: '20px', fontWeight: '700', marginTop: '15px' }}>Nhâp Lại Mật Khẩu: </p>
-          <input onChange={(event) => this.isChange(event)} type="text" className="input" name="passwordRoom_1" />
+          <input onChange={(event) => this.isChange(event)} type="password" className="input" name="passwordRoom_1" />
           <div className="line-box">
             <div className="line" />
           </div>
