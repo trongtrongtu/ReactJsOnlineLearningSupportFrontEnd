@@ -11,7 +11,7 @@ class MessageItemUser extends Component {
           </span>
           <div className="chat-body clearfix">
             <div className="header">
-              <strong className="primary-font">{this.props.userName}</strong>
+              <strong className="primary-font" style={{color:'red'}}>{this.props.userName}</strong>
               <small className="pull-right text-muted"><i className="fa fa-clock-o" /> {this.props.timeM}</small>
             </div>
             <p>
