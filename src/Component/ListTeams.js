@@ -76,7 +76,7 @@ export default class ListTeams extends Component {
                 <div className="py-5">
                     <div className="container">
                         <div className="row">
-                            <div className="col-lg-12" style={{ textAlign: "center", fontSize: "35px", fontWeight: 500 }}><p>Nhóm</p></div>
+                            <div className="col-lg-12" style={{ textAlign: "center", fontSize: "35px", fontWeight: 500, marginTop:'-30px' }}><p>Nhóm</p></div>
                             <Link to="/createGroup">
                                 <button className="btn-sm btn-primary" style={{ position: "absolute", right: "10px", marginRight: '140px' }}>Tạo Nhóm</button>
                             </Link>
@@ -86,7 +86,7 @@ export default class ListTeams extends Component {
                             </Link>
                         </div>
                     </div>
-                    <div style={{ marginTop: '80px' }}>
+                    <div>
                         <span style={{ display: 'flex', marginLeft: '100px', flexWrap: 'wrap' }}>
                             {ketQua.map((item, i) => (
                                 <span style={styles.li}>

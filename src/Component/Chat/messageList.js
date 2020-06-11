@@ -8,7 +8,7 @@ class MessageList extends Component {
         objMessage.scrollTop(100000);
         return (
             <div className="chat-message">
-                 <ul className="chat">
+                 <ul className="chat" style={{height:'680px'}}>
                  {this.props.messages.map((item,index) =>
                     <MessageItem key={index} userName={item.userName} message={item.message} timeM={item.timeM} roomName={item.roomName}/>
                 )}
